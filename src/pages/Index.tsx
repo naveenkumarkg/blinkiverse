@@ -1,12 +1,49 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import { useEffect, useState } from 'react';
+import Navbar from '@/components/Navbar';
+import Hero from '@/components/Hero';
+import CategorySection from '@/components/CategorySection';
+import ProductGrid from '@/components/ProductGrid';
+import DeliveryBanner from '@/components/DeliveryBanner';
+import Footer from '@/components/Footer';
 
 const Index = () => {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate loading
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 800);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div className="fixed inset-0 flex items-center justify-center bg-white">
+        <div className="flex flex-col items-center">
+          <img 
+            src="https://blinkit.com/images/blinkit/blinkit-logo-24684.png" 
+            alt="BlinkIt" 
+            className="h-12 mb-4 animate-pulse"
+          />
+          <div className="w-16 h-16 border-t-4 border-blinkit-green border-solid rounded-full animate-spin"></div>
+        </div>
       </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen flex flex-col">
+      <Navbar />
+      <main className="flex-grow">
+        <Hero />
+        <CategorySection />
+        <DeliveryBanner />
+        <ProductGrid />
+      </main>
+      <Footer />
     </div>
   );
 };
