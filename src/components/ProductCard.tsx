@@ -1,26 +1,38 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Plus, Minus, Clock } from 'lucide-react';
 import { Product } from '../types';
+import { useCart } from '@/contexts/CartContext';
 
 interface ProductCardProps {
   product: Product;
 }
 
 const ProductCard = ({ product }: ProductCardProps) => {
+  const { addToCart, updateQuantity, items } = useCart();
   const [quantity, setQuantity] = useState(0);
 
+  // Sync quantity with cart
+  useEffect(() => {
+    const cartItem = items.find(item => item.product.id === product.id);
+    if (cartItem) {
+      setQuantity(cartItem.quantity);
+    } else {
+      setQuantity(0);
+    }
+  }, [items, product.id]);
+
   const handleAddToCart = () => {
-    setQuantity(1);
+    addToCart(product, 1);
   };
 
   const handleIncrement = () => {
-    setQuantity(quantity + 1);
+    addToCart(product, 1);
   };
 
   const handleDecrement = () => {
     if (quantity > 0) {
-      setQuantity(quantity - 1);
+      updateQuantity(product.id, quantity - 1);
     }
   };
 
